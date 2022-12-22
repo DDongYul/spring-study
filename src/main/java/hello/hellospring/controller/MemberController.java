@@ -16,11 +16,13 @@ public class MemberController {
     private final MemberService memberService;
 
 //    @Autowired private MemberService memberService;   //필드주입 , setter주입도 있는데 둘다  쓸일 거의 없음
+    //필드는 한번 선언하면 바꿀수가 없고, setter는 public으로 노출된다는 단점
 
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }   //생성자 주입
+    //스프링 컨터이너에서 memberService 꺼내와서 매칭시켜줌
 
     @GetMapping("/members/new")     //url넘길떄
     public String createForm(){
