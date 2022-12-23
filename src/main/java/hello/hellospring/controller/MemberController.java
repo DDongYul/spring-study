@@ -24,19 +24,19 @@ public class MemberController {
     }   //생성자 주입
     //스프링 컨터이너에서 memberService 꺼내와서 매칭시켜줌
 
-    @GetMapping("/members/new")     //url넘길떄
+    @GetMapping("/members/new")     //url넘길떄 (조회할 떄)
     public String createForm(){
         return "members/createMemberForm";
     }
 
-    @PostMapping("/members/new")    //데이터 넘길떄 주로 사용
+    @PostMapping("/members/new")    //데이터 넘길떄(폼형식) 주로 사용
     public String create(MemberForm form){
         Member member = new Member();
         member.setName(form.getName());
 
         memberService.join(member);
 
-        return  "redirect:/";
+        return  "redirect:/";       //회원가입을 마치고 홈 화면으로 보냄
     }
 
     @GetMapping("/members")
