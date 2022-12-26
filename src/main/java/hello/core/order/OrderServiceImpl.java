@@ -10,10 +10,10 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    //문제점: 서비스 클래스가 저장소와 할인정책을 결정하고 있음! -> 제 3자가 결정하도록 분리해줘야함
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    //생성자 주입을 통해 리포지토리와 할인정책이 정해진다. 변경 시에 코드 수정이 필요없음
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;

@@ -14,18 +14,19 @@ import hello.core.order.OrderServiceImpl;
 public class AppConfig {
 
     public MemberService memberService(){
-        return new MemberServiceImpl(MemberRepository());
+        return new MemberServiceImpl(MemberRepository());   //멤버 서비스는 변경이 있어도 코드가 수정되지 않음
     }
 
     private MemberRepository MemberRepository() {
-        return new MemoryMemberRepository();
+        return new MemoryMemberRepository();    //리포지토리가 바뀌면 이 부분만 수정하면 변경 완료
     }
 
     public OrderService orderService(){
-        return new OrderServiceImpl(MemberRepository(),discountPolicy());
+        return new OrderServiceImpl(MemberRepository(),discountPolicy());   //오더 서비스는 변경이 있어도 코드가 수정되지 않음!
     }
 
     public DiscountPolicy discountPolicy(){
-        return new FixDiscountPolicy();
+        //return new FixDiscountPolicy();
+        return new RateDiscountPolicy();     //할인 정책이 바뀌면 이 부분만 수정하면 변경 완료
     }
 }
