@@ -2,6 +2,7 @@ package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Grade;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -9,8 +10,14 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    //문제점: 서비스 클래스가 저장소와 할인정책을 결정하고 있음! -> 제 3자가 결정하도록 분리해줘야함
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     //들어온 주문에 대해 주문결과 return
     @Override
