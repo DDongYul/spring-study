@@ -8,7 +8,7 @@ import org.springframework.context.annotation.FilterType;
 @ComponentScan
         (
         basePackages = "hello.core.member", //탐색할 패키지의 시작 위치
-        basePackageClasses = AutoAppConfig.class,   //탐색할 패키지의 시작점 default는 지정한 클래스의 패키지를 탐색 시작 위치로 지정한다.
+        basePackageClasses = AutoAppConfig.class,   //탐색할 패키지의 시작점,만약 지정하지 않으면 @ComponentScan 이 붙은 설정 정보 클래스의 패키지가 시작 위치가 된다.
         //패키지 위치를 지정하지 않고, 설정 정보 클래스의 위치를 프로젝트 최상단에 두는 것을 권장. 최근 스프링 부트도 이 방법을 기본으로 제공한다.
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION,classes = Configuration.class)
         //컴포넌트 스캔을 사용하면 @Configuration 이 붙은 설정 정보도 자동으로 등록되기 때문에, AppConfig, TestConfig 등 앞서 만들어두었던 설정 정보도 함께 등록되고, 실행되어 버린다.
