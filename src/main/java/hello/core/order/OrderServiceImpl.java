@@ -9,21 +9,22 @@ import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor    //final이 붙은 필드에 대해 생성자를 만들어줌
+//@RequiredArgsConstructor    //final이 붙은 필드에 대해 생성자를 만들어줌
 public class OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
     //생성자 주입을 통해 리포지토리와 할인정책이 정해진다. 변경 시에 코드 수정이 필요없음
-//    @Autowired    //생성자가 한개면 생략 가능
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    }
+    @Autowired    //생성자가 한개면 생략 가능
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     //들어온 주문에 대해 주문결과 return
     @Override
