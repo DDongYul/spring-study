@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService{
 
     //생성자 주입을 통해 리포지토리와 할인정책이 정해진다. 변경 시에 코드 수정이 필요없음
     @Autowired    //생성자가 한개면 생략 가능
-    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
