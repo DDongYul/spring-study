@@ -14,16 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
+//    private final ObjectProvider<MyLogger> myLoggerProvider;
 
     @RequestMapping("log-demo")
     @ResponseBody
-    public String logDemo(HttpServletRequest request) {
+    public String logDemo(HttpServletRequest request) throws InterruptedException {
         String requestURL = request.getRequestURL().toString();
-        MyLogger myLogger = myLoggerProvider.getObject();   //provider로 필요한 시점에 주입
+//        MyLogger myLogger = myLoggerProvider.getObject();   //provider로 필요한 시점에 주입
+        System.out.println("myLogger = " + myLogger.getClass()); //출력해보면 가짜 프록시 객체를 만들어 주입됨을 알수있음
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
+        Thread.sleep(1000); //동시에 들어오는 상황이라 가정하기 위
         logDemoService.logic("testId");
         return "OK";
     }

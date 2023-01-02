@@ -1,6 +1,7 @@
 package hello.core.common;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -8,7 +9,8 @@ import javax.annotation.PreDestroy;
 import java.util.UUID;
 
 @Component
-@Scope(value = "request") //request 스코프 (HTTP request가 들어오고 나갈때까지가 생명주기)
+//가짜 프록시로 싱글톤처럼 유지하면서 진짜 객체 조회를 꼭 필요한 시점까지 지연처리!
+@Scope(value = "request",proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MyLogger {
 
     private String uuid;
