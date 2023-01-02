@@ -20,7 +20,7 @@ public class MyLogger {
 
     public void log(String message) {
         System.out.println("[" + uuid + "]" + "[" + requestURL + "]" + message);
-    } //[d06b992f...][http://localhost:8080/log-demo] 처럼 출력
+    } //포맷: [UUID][requestURL] {message}
 
     @PostConstruct
     public void init() {
