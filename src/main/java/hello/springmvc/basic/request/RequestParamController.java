@@ -1,7 +1,9 @@
 package hello.springmvc.basic.request;
 
+import hello.springmvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,6 +83,39 @@ public class RequestParamController {
         log.info("username={}, age={}", paramMap.get("username"), paramMap.get("age"));
         return "ok";
     }
+
+    //ModelAttribute 사용 전
+//    @ResponseBody
+//    @RequestMapping("/model-attribute-v1")
+//    public String modelAttributeV1(@RequestParam String username, @RequestParam int age) {
+//        HelloData helloData = new HelloData();
+//        helloData.setUsername(username);
+//        helloData.setAge(age);
+//
+//        log.info("username={}, age={}", helloData.getUsername(),helloData.getAge());
+//        log.info("helloData={}",helloData); //lombok이 toString 만들어줌
+//        return "ok";
+//    }
+
+    //요청 파라미터의 이름으로 HelloData 객체의 프로퍼티를 찾는다. 그리고 해당 프로퍼티의 setter를 호출해서 파라미터의 값을 입력(바인딩) 한다.
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(),helloData.getAge());
+        log.info("helloData={}",helloData); //lombok이 toString 만들어줌
+        return "ok";
+    }
+
+    //@ModelAttribute도 생략이 가능/ 단순타입 -> requestParam / 만든 객체 -> ModelAttribute
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(),helloData.getAge());
+        log.info("helloData={}",helloData); //lombok이 toString 만들어줌
+        return "ok";
+    }
+
+
 
 
 }
