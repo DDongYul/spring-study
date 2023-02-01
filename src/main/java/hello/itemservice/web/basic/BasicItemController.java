@@ -1,6 +1,7 @@
 package hello.itemservice.web.basic;
 
 import hello.itemservice.domain.item.Item;
+import hello.itemservice.domain.item.ItemParamDTO;
 import hello.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,8 @@ public class BasicItemController {
         model.addAttribute("item", item);
         return "basic/item";
     }
+
+    //Get으로 단순히 등록 Form을 보여주는것
     @GetMapping("/add")
     public String addForm(){
         return "basic/addForm";
@@ -77,6 +80,22 @@ public class BasicItemController {
 
         return "basic/item";
     }
+
+    //상품 수정 폼 단순 조회
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute(item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute Item item) {
+        ItemParamDTO itemParamDTO = new ItemParamDTO(item.getItemName(), item.getPrice(), item.getQuantity());
+        itemRepository.update(itemId,itemParamDTO);
+        return "redirect:/basic/items/{itemId}"; //redirect를 통해 실제 url을 바꿈 현재 등록에서는 redirect 안해서 url 그대로임
+    }
+
 
     /**
      * 테스트용 데이터 추가
