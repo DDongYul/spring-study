@@ -73,12 +73,18 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV4(Item item){
     //ModelAttribute 생략 -> Item -> item으로 바꿔서 등록하는건 같음
         itemRepository.save(item);
+        return "basic/items";
+    }
 
-        return "basic/item";
+    @PostMapping("/add")
+    public String addItemV5(Item item){
+    //ModelAttribute 생략 -> Item -> item으로 바꿔서 등록하는건 같음
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     //상품 수정 폼 단순 조회
