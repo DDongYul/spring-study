@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -80,11 +81,19 @@ public class BasicItemController {
         return "basic/items";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV5(Item item){
-    //ModelAttribute 생략 -> Item -> item으로 바꿔서 등록하는건 같음
+    //PRG방식으로 수정
         itemRepository.save(item);
         return "redirect:/basic/items/" + item.getId();
+    }
+
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes){
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());   //치환
+        redirectAttributes.addAttribute("status", true);    //치환될게 없으면 query parameter
+        return "redirect:/basic/items/{itemId}";
     }
 
     //상품 수정 폼 단순 조회
