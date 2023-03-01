@@ -163,6 +163,12 @@ public class ValidationItemControllerV2 {
     @PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
+        //이걸 앞에 추가하면 타입 오류시 타입오류 메시지 하나만 띄우기 가능
+        if (bindingResult.hasErrors()) {
+            log.info("errors = {}", bindingResult);
+            return "validation/v2/addForm";
+        }
+
         //검증 로직
         if (!StringUtils.hasText(item.getItemName())) {
 //          bindingResult.addError(new FieldError("item","itemName", item.getItemName(), false, new String[]{"required.item.itemName"},null,null));
@@ -186,7 +192,6 @@ public class ValidationItemControllerV2 {
         //검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
-//            model.addAttribute("errors", bindingResult); // 모델에 안넘겨도 알아서 뷰에 넘어감
             return "validation/v2/addForm";
         }
 
