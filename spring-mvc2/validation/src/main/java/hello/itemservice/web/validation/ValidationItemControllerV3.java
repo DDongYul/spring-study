@@ -54,7 +54,7 @@ public class ValidationItemControllerV3 {
             if (resultPrice < 10000) {
                 bindingResult.reject("totalPriceMin", new Object[]{10000,resultPrice},null);
             }
-        }   //오브젝트 에러는 자바 코드로 처리해주는게 더 나은것 같다.   
+        }   //오브젝트 에러는 자바 코드로 처리해주는게 더 나은것 같다.
 
 
         //검증에 실패하면 다시 입력 폼으로
@@ -81,7 +81,15 @@ public class ValidationItemControllerV3 {
     }
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult,  RedirectAttributes redirectAttributes, Model model ) {
+    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute Item item, BindingResult bindingResult) {
+
+
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if (resultPrice < 10000) {
+                bindingResult.reject("totalPriceMin", new Object[]{10000,resultPrice},null);
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             log.info("errors = {}", bindingResult);
