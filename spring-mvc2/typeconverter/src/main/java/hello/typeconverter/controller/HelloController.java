@@ -25,7 +25,7 @@ public class HelloController {
         return "ok";
     }
 
-    //StringToIpPort 호출
+    //StringToInteger 호출 -> MyNumberFormatter호출(10,000이 들어와도 처리 가능)
     @GetMapping("/hello-v2")
     public String helloV2(@RequestParam Integer data) {
         System.out.println("data = " + data);
