@@ -5,7 +5,6 @@ import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.support.AopUtils;
@@ -29,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @Slf4j
 @SpringBootTest
-class MemberServiceV3_3Test {
+class MemberServiceV3_4Test {
 
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";
@@ -42,19 +41,16 @@ class MemberServiceV3_3Test {
 
     @TestConfiguration
     static class TestConfig{
-        @Bean
-        DataSource dataSource(){
-            return new DriverManagerDataSource(URL, USERNAME, PASSWORD);
-        }
 
-        @Bean
-        PlatformTransactionManager transactionManager(){
-            return new DataSourceTransactionManager(dataSource());
-        }   //@Transactional을 쓸 때 프록시도 결국 트랜잭션 매니저를 가져와 쓰는거기 떄문에 같이 등록해줘야함 (등록 안하면 스프링이 제공하는거 쓰기 가능 DataSource도 마찬가지)
+        private final DataSource dataSource;
+
+        public TestConfig(DataSource dataSource) {
+            this.dataSource = dataSource;
+        }   //스프링이 만든 dataSource
 
         @Bean
         MemberRepositoryV3 memberRepositoryV3(){
-            return new MemberRepositoryV3(dataSource());
+            return new MemberRepositoryV3(dataSource);
         }
 
         @Bean
