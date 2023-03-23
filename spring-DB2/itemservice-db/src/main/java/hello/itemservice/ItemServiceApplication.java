@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
 
-//@Import(MemoryConfig.class)
-@Import(JdbcTemplateV2Config.class)	//설정 파일 설정
+@Import(JdbcTemplateV3Config.class)	//설정 파일 설정
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")	//컨트롤러만 컴포넌트 스캔 하겠다는 뜻
 public class ItemServiceApplication {
 
