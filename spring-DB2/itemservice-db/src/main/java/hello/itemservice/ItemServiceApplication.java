@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 
 
 @Import(MemoryConfig.class)
-@SpringBootApplication(scanBasePackages = "hello.itemservice.web")
+@SpringBootApplication(scanBasePackages = "hello.itemservice.web")	//컨트롤러만 컴포넌트 스캔 하겠다는 뜻
 public class ItemServiceApplication {
 
 	public static void main(String[] args) {
