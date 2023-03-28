@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Slf4j
-@Import(QuerydslConfig.class)	//설정 파일 설정
+@Import(V2Config.class)	//설정 파일 설정
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")	//컨트롤러만 컴포넌트 스캔 하겠다는 뜻
 public class ItemServiceApplication {
 
