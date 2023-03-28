@@ -2,6 +2,7 @@ package hello.itemservice;
 
 import hello.itemservice.config.*;
 import hello.itemservice.repository.ItemRepository;
+import hello.itemservice.repository.jpa.JpaItemRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Slf4j
-@Import(SpringDataJpaConfig.class)	//설정 파일 설정
+@Import(QuerydslConfig.class)	//설정 파일 설정
 @SpringBootApplication(scanBasePackages = "hello.itemservice.web")	//컨트롤러만 컴포넌트 스캔 하겠다는 뜻
 public class ItemServiceApplication {
 
