@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -84,11 +85,13 @@ public class Order {
 
     //==조회 로직==//
     /**
-     * 주문 상품 전체 주문 가격 조회
+     * 전체 주문 가격 조회
      */
     public int getTotalPrice(){
-        return orderItems.stream()
-                .mapToInt(OrderItem::getOrderPrice)
-                .sum();
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 }

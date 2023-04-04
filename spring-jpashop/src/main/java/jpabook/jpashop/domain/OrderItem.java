@@ -46,4 +46,11 @@ public class OrderItem {
     public void cancle() {
         getItem().addStock(count);
     }
+
+    /**
+    * 주문상품 전체 가격 조회
+    */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }
