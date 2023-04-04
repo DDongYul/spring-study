@@ -1,8 +1,9 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //기본생성자 생성제한
 public class Order {
 
     @Id @GeneratedValue
@@ -49,6 +51,8 @@ public class Order {
         this.delivery = delivery;
         delivery.setOrder(this);
     }
+
+//    protected Order(){} //기본생성자 생성제한(롬복으로 가능)
 
     //==생성 메서드==//
     public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
