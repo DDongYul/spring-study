@@ -5,6 +5,8 @@ import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class OrderSimpleApiController {
 
     private final OrderRepository orderRepository;
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
     //무한루프, 지연로딩에 따른 프록시 문제, 엔티티 직접 노출 문제
     @GetMapping("/api/v1/simple-orders")
@@ -52,20 +55,26 @@ public class OrderSimpleApiController {
                 .collect(Collectors.toList());
     }
 
+    //DTO 직접 조회
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> ordersV4() {
+        return orderSimpleQueryRepository.findOrderDtos();
+    }
+
     @Data
-    static class SimpleOrderDto{
+    static class SimpleOrderDto {
         private Long orderId;
         private String name;
         private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private Address address;
-
+        
         public SimpleOrderDto(Order order) {
             orderId = order.getId();
             name = order.getMember().getName();
             orderDate = order.getOrderDate();
             orderStatus = order.getStatus();
-            address = order.getMember().getAddress();
-        }
+            address = order.getDelivery().getAddress();
+        } 
     }
 }
