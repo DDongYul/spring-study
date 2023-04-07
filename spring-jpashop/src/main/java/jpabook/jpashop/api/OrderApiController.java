@@ -51,6 +51,12 @@ public class OrderApiController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * V3.1 엔티티를 조회해서 DTO로 변환 페이징 고려
+     * ToOne 관계만 우선 모두 페치 조인으로 최적화
+     * 컬렉션 관계는 hibernate.default_batch_fetch_size, @BatchSize로 최적화
+     * In query문으로 N번 조회내용을 N/설정값 번으로 조회 횟수 줄임
+     */
     @GetMapping("/api/v3.1/orders")
     public List<OrderDto> ordersV3_page(
             @RequestParam(value = "offset",defaultValue = "0") int offset,
@@ -64,9 +70,26 @@ public class OrderApiController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * V4 JPA에서 DTO 직접 조회
+     * To one 관계 조회, To many 관계 조회 각각 해줌
+     * 반복문을 통해 To one 조회 내용에 To many 내용 set 해줌 -> To many 엔티티 1개당 N번 쿼리 조회
+     * N+1 문제 발생
+     */
     @GetMapping("api/v4/orders")
     public List<OrderQueryDto> ordersV4() {
         return orderQueryRepository.findOrderQueryDtos();
+    }
+
+    /**
+     * V5 JPA에서 DTO 직접 조회, N+1문제 해결
+     * To one 관계 조회, To many관계를 In query로 한번에 조회
+     * To many 관계 조회한 내용을 map으로 변경
+     * 반복문을 통해 To one 관계 조회 내용에 넣어줌 -> map의 내용 넣는거라 쿼리문 조회 안함
+     */
+    @GetMapping("api/v5/orders")
+    public List<OrderQueryDto> ordersV5() {
+        return orderQueryRepository.findAllByDto_optimization();
     }
 
 
