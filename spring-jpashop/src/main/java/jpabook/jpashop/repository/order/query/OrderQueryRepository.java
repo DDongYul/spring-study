@@ -14,8 +14,20 @@ public class OrderQueryRepository {
 
     private final EntityManager em;
 
+    //V6
+    public List<OrderFlatDto> findAllByDto_flat() {
+        return em.createQuery(
+                        "select new" +
+                                " jpabook.jpashop.repository.order.query.OrderFlatDto(o.id,m.name,o.orderDate,o.status,d.address,i.name,oi.orderPrice,oi.count)" +
+                                " from Order o" +
+                                " join o.member m" +
+                                " join o.delivery d" +
+                                " join o.orderItems oi" +
+                                " join oi.item i", OrderFlatDto.class)
+                .getResultList();
+    }
 
-    //To one 관계 조인한 결과에 orderItem을 set해줌 -> N+1 문제 발생
+    //V4: To one 관계 조인한 결과에 orderItem을 set해줌 -> N+1 문제 발생
     public List<OrderQueryDto> findOrderQueryDtos() {
         List<OrderQueryDto> orders = findOrders();  //orderItem 없는 order들 먼저 조회(To One 관계)
 
@@ -26,6 +38,7 @@ public class OrderQueryRepository {
         return orders;
     }
 
+    //V5
     public List<OrderQueryDto> findAllByDto_optimization() {
         List<OrderQueryDto> orders = findOrders();
 
@@ -41,6 +54,7 @@ public class OrderQueryRepository {
         return orders;
     }
 
+    //V5
     private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(List<Long> orderIds) {
         List<OrderItemQueryDto> orderItems = em.createQuery(
                         "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(oi.order.id,i.name,oi.orderPrice,oi.count)" +
@@ -55,6 +69,7 @@ public class OrderQueryRepository {
         return orderItemMap;
     }
 
+    //V5
     private List<Long> toOrderIds(List<OrderQueryDto> orders) {
         List<Long> orderIds = orders.stream()
                 .map(o -> o.getOrderId())
@@ -62,7 +77,7 @@ public class OrderQueryRepository {
         return orderIds;
     }
 
-    //컬렉션(1:N)인 orderItem은 따로 조회
+    //V4 컬렉션(1:N)인 orderItem은 따로 조회
     private List<OrderItemQueryDto> findOrderItems(Long orderId) {
         return em.createQuery(
                         "select new jpabook.jpashop.repository.order.query.OrderItemQueryDto(i.name,oi.orderPrice,oi.count)" +
@@ -74,7 +89,7 @@ public class OrderQueryRepository {
                 .getResultList();
     }
 
-    //컬렉션이 아닌 나머지(To one)관계들을 조회
+    //V4 컬렉션이 아닌 나머지(To one)관계들을 조회
     private List<OrderQueryDto> findOrders() {
         return em.createQuery(
                         "select new jpabook.jpashop.repository.order.query.OrderQueryDto(o.id,m.name,o.orderDate,o.status,m.address)" +
@@ -83,4 +98,5 @@ public class OrderQueryRepository {
                                 " join o.delivery d", OrderQueryDto.class)
                 .getResultList();
     }
+
 }
