@@ -39,4 +39,8 @@ public class OrderServiceImpl implements OrderService{
     public MemberRepository getMemberRepository() {
         return memberRepository;
     }
+    //테스트 용도
+    public DiscountPolicy getDiscountPolicy(){
+        return discountPolicy;
+    }
 }
